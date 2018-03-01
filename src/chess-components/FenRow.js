@@ -7,7 +7,7 @@ export default class FenRow extends Component {
     this.row = this.parseRow(this.props.row);
     return (<tr>
       {this.row.map((c,i) => (
-        <td key={c+i} className={this.getClass(i%2)} onClick={this.props.select.bind(null,i)}>{CharMap[c]}</td>
+        <td index={i} key={c+i} className={this.getClass(this.props.index, i)} onClick={this.props.select.bind(null,i)}>{CharMap[c]}</td>
       ))}
     </tr>);
   }
@@ -24,7 +24,7 @@ export default class FenRow extends Component {
     return row;
   }
 
-  getClass(columnOddity) {
-    return (this.props.rowOddity === columnOddity)? 'dark' : 'light';
+  getClass(row, col) {
+    return (row%2 === col%2)? 'dark' : 'light';
   }
 }
