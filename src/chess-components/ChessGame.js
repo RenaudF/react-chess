@@ -28,21 +28,26 @@ export default class ChessGame extends Component {
     }
 
     select(row, col) {
-        let selected = [row,col];
+        const selected = [row,col];
+        const selectedValue = this.getCellValue.apply(this, selected);
         this.setState(prev => {
             if (prev.selected) {
                 this.move(prev.selected, selected);
-                return Object.assign({}, prev, {selected: null});
-            } else {
-                return Object.assign({}, prev, {selected: selected});
+                return {selected: null};
+            } else if (selectedValue) {
+                return {selected: selected};
             }
         })
     }
+
+    getCellValue(row, col) {
+        return this.board.rows[row].element.row[col];
+    }
   
     move(from, to) {
-        const fromValue = this.board.rows[from[0]].element.row[from[1]];
+        const fromValue = this.getCellValue.apply(this, from);
         if (!fromValue) return;
-        const toValue = this.board.rows[to[0]].element.row[to[1]];
+        const toValue = this.getCellValue.apply(this, to);
         const boardMatrix = this.board.rows.map(r => r.element.row.map(d => d));
 
         boardMatrix[from[0]][from[1]] = "";
