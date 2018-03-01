@@ -20,6 +20,7 @@ export default class FenRow extends Component {
         row.push('');
       }
     });
+    if (row.length !== 8) throw 'Wrong row length'
     return row;
   }
 

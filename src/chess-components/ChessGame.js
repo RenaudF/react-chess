@@ -13,6 +13,7 @@ export default class ChessGame extends Component {
         fenCode: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR',
         selected: null
       };
+      this.lastCorrectFen = this.state.fenCode;
     }
   
     render() {
@@ -23,6 +24,12 @@ export default class ChessGame extends Component {
         </div>
       );
     }
+
+    componentDidCatch(error, info) {
+        console.warn('Invalid Fen input:', this.state.fenCode, '\n');
+        console.warn('Reverting to last:', this.lastCorrectFen);
+        this.setState({fenCode: this.lastCorrectFen});
+    }
   
     onFenEdit(event) {
       this.setState({fenCode: event.target.value});
@@ -32,6 +39,7 @@ export default class ChessGame extends Component {
         const selected = [row,col];
         const selectedValue = this.getCellValue.apply(this, selected);
         this.setState(prev => {
+            this.lastCorrectFen = prev.fenCode;
             if (prev.selected) {
                 this.move(prev.selected, selected);
                 return {selected: null};

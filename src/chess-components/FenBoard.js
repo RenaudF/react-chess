@@ -7,6 +7,7 @@ export default class FenBoard extends Component {
       // rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
       const [board] = fenCode.split(' '); // ignoring other params for now
       const rows = board.split('/');
+      if (rows.length !== 8) throw 'Wrong number of rows';
       return rows.map(d => ({ fen: d }));
     }
   
