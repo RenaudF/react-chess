@@ -42,7 +42,9 @@ export default class ChessGame extends Component {
             this.lastCorrectFen = prev.fenCode;
             if (prev.selected) {
                 const fromCell = this.getCell.apply(this, prev.selected);
-                if (toCell.value && fromCell.player === toCell.player) {
+                if (fromCell.row === toCell.row && fromCell.col === toCell.col) {
+                    return {selected: null};
+                } else if (toCell.value && fromCell.player === toCell.player) {
                     console.warn('Player can\'t take his own pieces');
                 } else {
                     this.move(fromCell, toCell);
