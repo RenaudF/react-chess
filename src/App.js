@@ -50,18 +50,34 @@ class ChessGame extends Component {
 
 class FenBoard extends Component {
   
-  constructor(props) {
-    super(props);
-    this.state = {
-      board: this.parseFen(this.props.fenCode)
-    };
-  }
-
   parseFen(fenCode) {
     // rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
     const [board] = fenCode.split(' '); // ignoring other params for now
-    const rows = board.split('/').map(this.parseRow);
+    const rows = board.split('/');
     return rows;
+  }
+
+  render() {
+    const rows = this.parseFen(this.props.fenCode);
+    return (
+      <div className="chess-board">
+        <table>
+          <tbody>
+            {rows.map((r,i) => (<FenRow row={r} key={r+i} rowOddity={i%2}/>))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
+
+class FenRow extends Component {
+
+  render() {
+    const row = this.parseRow(this.props.row);
+    return (<tr>
+      {row.map((c,i) => (<td key={c+i} className={this.getClass(i%2)}>{c}</td>))}
+    </tr>);
   }
 
   parseRow(fenRow) {
@@ -73,27 +89,6 @@ class FenBoard extends Component {
       }
     });
     return row;
-  }
-
-  render() {
-    return (
-      <div className="chess-board">
-        <table>
-          <tbody>
-            {this.state.board.map((r,i) => (<FenRow row={r} rowOddity={i%2}/>))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-}
-
-class FenRow extends Component {
-
-  render() {
-    return (<tr>
-      {this.props.row.map((c,i) => (<td className={this.getClass(i%2)}>{c}</td>))}
-    </tr>);
   }
 
   getClass(columnOddity) {
