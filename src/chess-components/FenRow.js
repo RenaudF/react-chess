@@ -4,15 +4,15 @@ import CharMap from './CharMap';
 export default class FenRow extends Component {
 
   render() {
-    this.row = this.parseRow(this.props.row);
+    this.row = this.parseFen(this.props.row);
     return (<tr>
-      {this.row.map((c,i) => (
-        <td index={i} key={c+i} className={this.getClass(this.props.index, i)} onClick={this.props.select.bind(null,i)}>{CharMap[c]}</td>
+      {this.row.map((d,i) => (
+        <td ref={c => {d.element = c;}} index={i} key={d.fen+i} className={this.getClass(this.props.index, i)} onClick={this.props.select.bind(null,i)}>{CharMap[d.fen]}</td>
       ))}
     </tr>);
   }
 
-  parseRow(fenRow) {
+  parseFen(fenRow) {
     const row = [];
     fenRow.split('').forEach(c => {
       if (isNaN(c)) row.push(c);
@@ -21,7 +21,7 @@ export default class FenRow extends Component {
       }
     });
     if (row.length !== 8) throw new Error('Wrong row length')
-    return row;
+    return row.map(d => ({fen: d}));
   }
 
   getClass(row, col) {

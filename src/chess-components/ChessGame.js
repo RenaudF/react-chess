@@ -55,7 +55,7 @@ export default class ChessGame extends Component {
     }
 
     getCell(row, col) {
-        const value = this.board.rows[row].element.row[col]
+        const value = this.board.rows[row].element.row[col].fen;
         return {
             value, row, col,
             player: value === value.toLowerCase()
@@ -63,7 +63,7 @@ export default class ChessGame extends Component {
     }
   
     move(from, to) {
-        const boardMatrix = this.board.rows.map(r => r.element.row.map(d => d));
+        const boardMatrix = this.board.rows.map(r => r.element.row.map(d => d.fen));
 
         boardMatrix[from.row][from.col] = "";
         boardMatrix[to.row][to.col] = from.value;
