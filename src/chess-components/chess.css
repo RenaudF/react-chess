@@ -1,0 +1,22 @@
+.chess-game input {
+    width: 400px;
+}
+
+.chess-board {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.chess-board td {
+    width: 20px;
+    height: 20px;
+}
+
+.chess-board td.light {
+    background-color: #DDD;
+}
+
+.chess-board td.dark {
+    background-color: #777;
+}

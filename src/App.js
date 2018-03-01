@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ChessGame from './chess-components/ChessGame';
 
 class App extends Component {
   render() {
@@ -16,83 +17,6 @@ class App extends Component {
         <ChessGame/>
       </div>
     );
-  }
-}
-
-class ChessGame extends Component {
-
-  constructor(props) {
-    super(props);
-    this.move = this.move.bind(this);
-    this.onFenEdit = this.onFenEdit.bind(this);
-    this.state = {
-      fenCode: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
-    };
-  }
-
-  render() {
-    return (
-      <div className="chess-game">
-        <input type="text" value={this.state.fenCode} onChange={this.onFenEdit}/>
-        <FenBoard fenCode={this.state.fenCode} move={this.move}/>
-      </div>
-    );
-  }
-
-  onFenEdit(event) {
-    this.setState({fenCode: event.target.value});
-  }
-
-  move(from, to) {
-    console.log('TODO');
-  }
-}
-
-class FenBoard extends Component {
-  
-  parseFen(fenCode) {
-    // rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
-    const [board] = fenCode.split(' '); // ignoring other params for now
-    const rows = board.split('/');
-    return rows;
-  }
-
-  render() {
-    const rows = this.parseFen(this.props.fenCode);
-    return (
-      <div className="chess-board">
-        <table>
-          <tbody>
-            {rows.map((r,i) => (<FenRow row={r} key={r+i} rowOddity={i%2}/>))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-}
-
-class FenRow extends Component {
-
-  render() {
-    const row = this.parseRow(this.props.row);
-    return (<tr>
-      {row.map((c,i) => (<td key={c+i} className={this.getClass(i%2)}>{c}</td>))}
-    </tr>);
-  }
-
-  parseRow(fenRow) {
-    const row = [];
-    fenRow.split('').forEach(c => {
-      if (isNaN(c)) row.push(c);
-      else for (let i=0; i<(+c); i++) {
-        row.push('');
-      }
-    });
-    return row;
-  }
-
-  getClass(columnOddity) {
-    return (this.props.rowOddity === columnOddity)? 'dark' : 'light';
   }
 }
 
