@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import FenBoard from './FenBoard';
+import CharMap from './CharMap';
 import './chess.css';
 
 export default class ChessGame extends Component {
@@ -52,7 +53,7 @@ export default class ChessGame extends Component {
 
         boardMatrix[from[0]][from[1]] = "";
         boardMatrix[to[0]][to[1]] = fromValue;
-        if (toValue) console.log(fromValue + ' takes ' +toValue);
+        if (toValue) console.log(CharMap[fromValue] + ' takes ' + CharMap[toValue]);
 
         const newFen = boardMatrix.map(d => d.reduce((a,b) => {
             if (b === "") {
