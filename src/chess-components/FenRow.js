@@ -3,9 +3,11 @@ import React, { Component } from 'react';
 export default class FenRow extends Component {
 
   render() {
-    const row = this.parseRow(this.props.row);
+    this.row = this.parseRow(this.props.row);
     return (<tr>
-      {row.map((c,i) => (<td key={c+i} className={this.getClass(i%2)}>{c}</td>))}
+      {this.row.map((c,i) => (
+        <td key={c+i} className={this.getClass(i%2)} onClick={this.props.select.bind(null,i)}>{c}</td>
+      ))}
     </tr>);
   }
 

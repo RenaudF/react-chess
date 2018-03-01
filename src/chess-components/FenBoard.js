@@ -7,16 +7,18 @@ export default class FenBoard extends Component {
       // rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
       const [board] = fenCode.split(' '); // ignoring other params for now
       const rows = board.split('/');
-      return rows;
+      return rows.map(d => ({ fen: d }));
     }
   
     render() {
-      const rows = this.parseFen(this.props.fenCode);
+      this.rows = this.parseFen(this.props.fenCode);
       return (
         <div className="chess-board">
           <table>
             <tbody>
-              {rows.map((r,i) => (<FenRow row={r} key={r+i} rowOddity={i%2}/>))}
+              {this.rows.map((r,i) => (
+                <FenRow ref={c => {r.element = c;}} row={r.fen} key={r.fen+i} rowOddity={i%2} select={this.props.select.bind(null,i)}/>
+              ))}
             </tbody>
           </table>
         </div>
