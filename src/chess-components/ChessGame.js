@@ -20,7 +20,7 @@ export default class ChessGame extends Component {
       return (
         <div className="chess-game">
           <input type="text" value={this.state.fenCode} onChange={this.onFenEdit}/>
-          <FenBoard ref={c => {this.board = c;}} fenCode={this.state.fenCode} select={this.select}/>
+          <FenBoard ref={c => {this.board = c;}} fenCode={this.state.fenCode} select={this.select} selected={this.state.selected}/>
         </div>
       );
     }

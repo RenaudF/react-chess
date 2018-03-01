@@ -25,6 +25,7 @@ export default class FenRow extends Component {
   }
 
   getClass(row, col) {
-    return (row%2 === col%2)? 'dark' : 'light';
+    const selected = (this.props.selected === col)? 'selected ' : '';
+    return selected + ((row%2 === col%2)? 'dark' : 'light');
   }
 }

@@ -18,7 +18,7 @@ export default class FenBoard extends Component {
           <table>
             <tbody>
               {this.rows.map((d,i) => (
-                <FenRow ref={c => {d.element = c;}} row={d.fen} index={i} key={d.fen+i} select={this.props.select.bind(null,i)}/>
+                <FenRow ref={c => {d.element = c;}} row={d.fen} index={i} key={d.fen+i} select={this.props.select.bind(null,i)} selected={(this.props.selected && this.props.selected[0] === i)? this.props.selected[1] : undefined}/>
               ))}
             </tbody>
           </table>

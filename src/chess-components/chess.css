@@ -11,12 +11,20 @@
 .chess-board td {
     width: 20px;
     height: 20px;
+    padding: -2px;
+    border: 2px solid white;
 }
 
 .chess-board td.light {
     background-color: #DDD;
+    border-color: #DDD;
 }
 
 .chess-board td.dark {
     background-color: #777;
+    border-color: #777;
+}
+
+.chess-board td.selected {
+    border-color: red;
 }
