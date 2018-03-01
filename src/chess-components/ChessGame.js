@@ -37,31 +37,37 @@ export default class ChessGame extends Component {
 
     select(row, col) {
         const selected = [row,col];
-        const selectedValue = this.getCellValue.apply(this, selected);
+        const toCell = this.getCell.apply(this, selected);
         this.setState(prev => {
             this.lastCorrectFen = prev.fenCode;
             if (prev.selected) {
-                this.move(prev.selected, selected);
-                return {selected: null};
-            } else if (selectedValue) {
+                const fromCell = this.getCell.apply(this, prev.selected);
+                if (toCell.value && fromCell.player === toCell.player) {
+                    console.warn('Player can\'t take his own pieces');
+                } else {
+                    this.move(fromCell, toCell);
+                    return {selected: null};
+                }
+            } else if (toCell) {
                 return {selected: selected};
             }
         })
     }
 
-    getCellValue(row, col) {
-        return this.board.rows[row].element.row[col];
+    getCell(row, col) {
+        const value = this.board.rows[row].element.row[col]
+        return {
+            value, row, col,
+            player: value === value.toLowerCase()
+        };
     }
   
     move(from, to) {
-        const fromValue = this.getCellValue.apply(this, from);
-        if (!fromValue) return;
-        const toValue = this.getCellValue.apply(this, to);
         const boardMatrix = this.board.rows.map(r => r.element.row.map(d => d));
 
-        boardMatrix[from[0]][from[1]] = "";
-        boardMatrix[to[0]][to[1]] = fromValue;
-        if (toValue) console.log(CharMap[fromValue] + ' takes ' + CharMap[toValue]);
+        boardMatrix[from.row][from.col] = "";
+        boardMatrix[to.row][to.col] = from.value;
+        if (to.value) console.log(CharMap[from.value] + ' takes ' + CharMap[to.value]);
 
         const newFen = boardMatrix.map(d => d.reduce((a,b) => {
             if (b === "") {
