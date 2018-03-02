@@ -10,9 +10,10 @@ export default class ChessGame extends Component {
       this.select = this.select.bind(this);
       this.onFenEdit = this.onFenEdit.bind(this);
       this.state = {
-        fenCode: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR',
+        fenCode: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w',
         selected: null
       };
+      this.player = 'w';
       this.lastCorrectFen = this.state.fenCode;
     }
   
@@ -51,7 +52,11 @@ export default class ChessGame extends Component {
                     return {selected: null};
                 }
             } else if (toCell) {
-                return {selected: selected};
+                if (toCell.player === this.player) {
+                    return {selected: selected};
+                } else {
+                    console.warn('Wrong player piece selected');
+                }
             }
         })
     }
@@ -60,7 +65,7 @@ export default class ChessGame extends Component {
         const value = this.board.rows[row].element.row[col].fen;
         return {
             value, row, col,
-            player: value === value.toLowerCase()
+            player: (value === value.toLowerCase())? 'w' : 'b'
         };
     }
   
@@ -71,6 +76,8 @@ export default class ChessGame extends Component {
         boardMatrix[to.row][to.col] = from.value;
         if (to.value) console.log(CharMap[from.value] + ' takes ' + CharMap[to.value]);
 
+        this.player = (this.player === 'w')? 'b' : 'w'
+
         const newFen = boardMatrix.map(d => d.reduce((a,b) => {
             if (b === "") {
                 const head = a.slice(0, a.length-1);
@@ -78,7 +85,7 @@ export default class ChessGame extends Component {
                 if (!isNaN(tail)) return head + (+tail+1);
                 else return head + tail + 1
             } else return a + b;
-        }, "")).join('/');
+        }, "")).join('/') + ' ' + this.player;
 
         setTimeout(() => this.setState({fenCode: newFen}));
     }
