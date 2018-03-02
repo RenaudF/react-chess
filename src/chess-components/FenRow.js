@@ -7,7 +7,9 @@ export default class FenRow extends Component {
     this.row = this.parseFen(this.props.row);
     return (<tr>
       {this.row.map((d,i) => (
-        <td ref={c => {d.element = c;}} index={i} key={d.fen+i} className={this.getClass(this.props.index, i)} onClick={this.props.select.bind(null,i)}>{CharMap[d.fen]}</td>
+        <td ref={c => {d.element = c;}} index={i} key={d.fen+i} className={this.getClass(this.props.index, i)} onClick={this.props.select.bind(null,i)}>
+          <div className="chess-piece">{CharMap[d.fen]}</div>
+        </td>
       ))}
     </tr>);
   }
