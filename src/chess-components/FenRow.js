@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ChessPiece from './ChessPiece';
 import CharMap from './CharMap';
 
 export default class FenRow extends Component {
@@ -8,7 +9,7 @@ export default class FenRow extends Component {
     return (<tr>
       {this.row.map((d,i) => (
         <td ref={c => {d.element = c;}} index={i} key={d.fen+i} className={this.getClass(this.props.index, i)} onClick={this.props.select.bind(null,i)}>
-          <div className="chess-piece">{CharMap[d.fen]}</div>
+         {d.fen && <ChessPiece fen={d.fen} />}
         </td>
       ))}
     </tr>);
