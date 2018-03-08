@@ -18,3 +18,20 @@ it('should initialise the board properly', () => {
     const boardText = cells.map(d => d.textContent).join();
     expect(boardText).toEqual("♖,♘,♗,♕,♔,♗,♘,♖,♙,♙,♙,♙,♙,♙,♙,♙,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,♟,♟,♟,♟,♟,♟,♟,♟,♜,♞,♝,♛,♚,♝,♞,♜");
 });
+
+it('can move a piece', (done) => {
+    const wrapper = mount(<ChessGame />);
+
+    const cells = Array.from(wrapper.find('td'));
+    shallow(cells.shift()).simulate('click');
+    shallow(cells.pop()).simulate('click');
+
+    wrapper.instance().componentDidUpdate = () => {
+        const cells = wrapper.update().find('td').map(d => d.instance());
+        const boardText = cells.map(d => d.textContent).join();
+        expect(boardText).toEqual(",♘,♗,♕,♔,♗,♘,♖,♙,♙,♙,♙,♙,♙,♙,♙,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,♟,♟,♟,♟,♟,♟,♟,♟,♜,♞,♝,♛,♚,♝,♞,♖");
+        const input = wrapper.find('input');
+        expect(input.instance().value).toEqual(wrapper.instance().state.fenCode);
+        done();
+    }
+});
